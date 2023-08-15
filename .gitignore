@@ -503,5 +503,22 @@ FodyWeavers.xsd
 
 ### VisualStudio Patch ###
 # Additional files built by Visual Studio
+*/Saved/*
+*/Intermediate/*
+
+IntroProject/Content/*
+
+WarehouseWreckage/Content/IndustryPropsPack6/*
+WarehouseWreckage/Content/StarterContent/*
+
+ObstacleAssault/Content/BlockGame/*
+ObstacleAssault/Content/Hour_of_Code/*
+ObstacleAssault/Content/LearningKit_Games/*
+ObstacleAssault/Content/SCK_Casual01/*
+
+CryptRaider/Content/__ExternalActors__/FirstPerson/Maps/*
+CryptRaider/Content/__ExternalObjects__/FirstPerson/Maps/*
+CryptRaider/Content/MedievalDungeon/*
+
 
 # End of https://www.toptal.com/developers/gitignore/api/unrealengine,visualstudio,c++
