@@ -36,22 +36,16 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	FVector end = start + GetForwardVector() * MaxGrabDistance;
 	DrawDebugLine(GetWorld(), start, end, FColor::Red);
 
-	float damage;
-	if (HasDamage(damage))
+	FCollisionShape sphere = FCollisionShape::MakeSphere(GrabRadius);
+	FHitResult hitResult;
+	bool hasHit = GetWorld()->SweepSingleByChannel(hitResult, start, end, FQuat::Identity, ECC_GameTraceChannel2, sphere);
+
+	if (hasHit)
 	{
-		PrintDamage(damage);
+		UE_LOG(LogTemp, Display, TEXT("Hit Actor: %s"), *hitResult.GetActor()->GetActorNameOrLabel());
+	}
+	else
+	{
+		UE_LOG(LogTemp, Display, TEXT("No actor hit"));
 	}
 }
-
-void UGrabber::PrintDamage(const float& damage)
-{
-	// damage = 2.0f;
-	UE_LOG(LogTemp, Display, TEXT("Damage: %f"), damage);
-}
-
-bool UGrabber::HasDamage(float& outDamage)
-{
-	outDamage = 5.0f;
-	return true;
-}
-
