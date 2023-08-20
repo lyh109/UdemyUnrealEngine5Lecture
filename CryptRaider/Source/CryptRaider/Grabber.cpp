@@ -30,12 +30,8 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	UPhysicsHandleComponent* physicsHandle = GetPhysicsHandle();
-	if (physicsHandle == nullptr)
-	{
-		return;
-	}
 
-	if (physicsHandle->GetGrabbedComponent())
+	if (physicsHandle && physicsHandle->GetGrabbedComponent())
 	{
 		FVector targetLocation = GetComponentLocation() + GetForwardVector() * HoldDistance;
 		physicsHandle->SetTargetLocationAndRotation(targetLocation, GetComponentRotation());
@@ -65,12 +61,8 @@ void UGrabber::Grab()
 void UGrabber::Release()
 {
 	UPhysicsHandleComponent* physicsHandle = GetPhysicsHandle();
-	if (physicsHandle == nullptr)
-	{
-		return;
-	}
 
-	if (physicsHandle->GetGrabbedComponent())
+	if (physicsHandle && physicsHandle->GetGrabbedComponent())
 	{
 		physicsHandle->GetGrabbedComponent()->WakeAllRigidBodies();
 		
