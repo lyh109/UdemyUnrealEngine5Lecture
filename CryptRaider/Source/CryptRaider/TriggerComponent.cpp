@@ -5,15 +5,15 @@
 
 UTriggerComponent::UTriggerComponent()
 {
+	PrimaryComponentTick.bCanEverTick = true;
 }
 
 void UTriggerComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
-	UE_LOG(LogTemp, Display, TEXT("Trigger Component Alive"));
 }
 
 void UTriggerComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 }
