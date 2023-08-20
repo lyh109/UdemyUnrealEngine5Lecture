@@ -51,11 +51,12 @@ void UGrabber::Grab()
 	}
 
 	FHitResult hitResult;
-
 	if (GetGrabbableInReach(hitResult))
 	{
 		UPrimitiveComponent* HitComponent = hitResult.GetComponent();
 		HitComponent->WakeAllRigidBodies();
+
+		hitResult.GetActor()->Tags.Add("Grabbed");
 		
 		physicsHandle->GrabComponentAtLocationWithRotation(HitComponent, NAME_None, hitResult.ImpactPoint, GetComponentRotation());
 	}
@@ -72,6 +73,10 @@ void UGrabber::Release()
 	if (physicsHandle->GetGrabbedComponent())
 	{
 		physicsHandle->GetGrabbedComponent()->WakeAllRigidBodies();
+		
+		AActor* grabbedActor = physicsHandle->GetGrabbedComponent()->GetOwner();
+		grabbedActor->Tags.Remove("Grabbed");
+
 		physicsHandle->ReleaseComponent();
 	}
 }
