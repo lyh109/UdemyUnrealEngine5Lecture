@@ -20,15 +20,8 @@ void UTriggerComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 	TArray<AActor*> actors;
 	GetOverlappingActors(actors);
 	
-	/*int32 index = 0;
-	while (index < actors.Num())
+	for (AActor* actor : actors)
 	{
-		UE_LOG(LogTemp, Display, TEXT("Overlapping actor: %s"), *actors[index]->GetActorNameOrLabel());
-		++index;
-	}*/
-
-	for (int32 i = 0; i < actors.Num(); ++i)
-	{
-		UE_LOG(LogTemp, Display, TEXT("Overlapping actor: %s"), *actors[i]->GetActorNameOrLabel());
+		UE_LOG(LogTemp, Display, TEXT("Overlapping actor: %s"), *actor->GetActorNameOrLabel())
 	}
 }
