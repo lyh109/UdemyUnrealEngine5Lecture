@@ -7,6 +7,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "InputMappingContext.h"
+#include "Kismet/GameplayStatics.h"
 
 
 ATank::ATank()
@@ -58,7 +59,8 @@ void ATank::Move(const FInputActionValue& value)
 	const FRotator rotation = GetController()->GetControlRotation();
 	const FRotator yawRotation = FRotator(0.0f, rotation.Yaw, 0.0f);
 	const FVector forwardDirection = FRotationMatrix(yawRotation).GetUnitAxis(EAxis::X);
+	const float deltaTime = UGameplayStatics::GetWorldDeltaSeconds(this);
 
 	UE_LOG(LogTemp, Warning, TEXT("movement: %f %f"), movement.X, movement.Y);
-	AddActorLocalOffset(forwardDirection * movement.Y);
+	AddActorLocalOffset(forwardDirection * movement.Y * deltaTime * Speed);
 }

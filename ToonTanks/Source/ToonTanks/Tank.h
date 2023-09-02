@@ -34,11 +34,14 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	class UCameraComponent* Camera;
 
-	UPROPERTY(VisibleAnywhere, Category = Input)
+	UPROPERTY(VisibleAnywhere, Category = "Input")
 	class UInputMappingContext* DefaultContext;
 
-	UPROPERTY(VisibleAnywhere, Category = Input)
+	UPROPERTY(VisibleAnywhere, Category = "Input")
 	class UInputAction* MoveAction;
+
+	UPROPERTY(EditAnywhere, Category = "Movement")
+	float Speed = 200.0f;
 
 	void Move(const FInputActionValue& value);
 };
