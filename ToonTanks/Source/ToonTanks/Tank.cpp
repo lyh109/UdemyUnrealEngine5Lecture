@@ -54,6 +54,11 @@ void ATank::BeginPlay()
 
 void ATank::Move(const FInputActionValue& value)
 {
-	FVector2D movement = value.Get<FVector2D>();
-	UE_LOG(LogTemp, Display, TEXT("MOVE!! %f %f"), movement.X, movement.Y);
+	const FVector2D movement = value.Get<FVector2D>();
+	const FRotator rotation = GetController()->GetControlRotation();
+	const FRotator yawRotation = FRotator(0.0f, rotation.Yaw, 0.0f);
+	const FVector forwardDirection = FRotationMatrix(yawRotation).GetUnitAxis(EAxis::X);
+
+	UE_LOG(LogTemp, Warning, TEXT("movement: %f %f"), movement.X, movement.Y);
+	AddActorLocalOffset(forwardDirection * movement.Y);
 }
