@@ -3,6 +3,7 @@
 
 #include "Tank.h"
 #include "Camera/CameraComponent.h"
+#include "DrawDebugHelpers.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -45,10 +46,11 @@ void ATank::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (APlayerController* playerController = Cast<APlayerController>(GetController()))
+	PlayerControllerRef = Cast<APlayerController>(GetController());
+	if (PlayerControllerRef)
 	{
 		if (UEnhancedInputLocalPlayerSubsystem* subSystem =
-			ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(playerController->GetLocalPlayer()))
+			ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerControllerRef->GetLocalPlayer()))
 			subSystem->AddMappingContext(DefaultContext, 0);
 	}
 }
@@ -56,7 +58,7 @@ void ATank::BeginPlay()
 void ATank::Move(const FInputActionValue& value)
 {
 	const FVector2D movement = value.Get<FVector2D>();
-	const FRotator rotation = GetController()->GetControlRotation();
+	const FRotator rotation = PlayerControllerRef->GetControlRotation();
 
 	const FRotator yawRotation = FRotator(0.0f, rotation.Yaw, 0.0f);
 	const FVector forwardDirection = FRotationMatrix(yawRotation).GetUnitAxis(EAxis::X);
@@ -70,4 +72,17 @@ void ATank::Move(const FInputActionValue& value)
 	FRotator deltaRotation = FRotator::ZeroRotator;
 	deltaRotation.Yaw = movement.X * deltaTime * TurnRate;
 	AddActorLocalRotation(deltaRotation, true);
+}
+
+void ATank::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	if (PlayerControllerRef)
+	{
+		FHitResult hitResult;
+		PlayerControllerRef->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, false, hitResult);
+
+		DrawDebugSphere(GetWorld(), hitResult.ImpactPoint, 25.0f, 12, FColor::Red, false);
+	}
 }

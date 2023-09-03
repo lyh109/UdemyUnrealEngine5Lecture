@@ -47,4 +47,10 @@ private:
 	float TurnRate = 45.0f;
 
 	void Move(const FInputActionValue& value);
+
+	APlayerController* PlayerControllerRef;
+
+public:
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
 };
