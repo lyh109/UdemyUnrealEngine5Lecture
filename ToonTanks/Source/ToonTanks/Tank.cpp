@@ -3,7 +3,6 @@
 
 #include "Tank.h"
 #include "Camera/CameraComponent.h"
-#include "DrawDebugHelpers.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -83,6 +82,6 @@ void ATank::Tick(float DeltaTime)
 		FHitResult hitResult;
 		PlayerControllerRef->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, false, hitResult);
 
-		DrawDebugSphere(GetWorld(), hitResult.ImpactPoint, 25.0f, 12, FColor::Red, false);
+		RotateTurret(hitResult.ImpactPoint);
 	}
 }
