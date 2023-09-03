@@ -57,10 +57,17 @@ void ATank::Move(const FInputActionValue& value)
 {
 	const FVector2D movement = value.Get<FVector2D>();
 	const FRotator rotation = GetController()->GetControlRotation();
+
 	const FRotator yawRotation = FRotator(0.0f, rotation.Yaw, 0.0f);
 	const FVector forwardDirection = FRotationMatrix(yawRotation).GetUnitAxis(EAxis::X);
+	const FVector rightDirection = FRotationMatrix(yawRotation).GetUnitAxis(EAxis::Y);
+
 	const float deltaTime = UGameplayStatics::GetWorldDeltaSeconds(this);
 
 	UE_LOG(LogTemp, Warning, TEXT("movement: %f %f"), movement.X, movement.Y);
-	AddActorLocalOffset(forwardDirection * movement.Y * deltaTime * Speed);
+	AddActorLocalOffset(forwardDirection * movement.Y * deltaTime * Speed, true);
+
+	FRotator deltaRotation = FRotator::ZeroRotator;
+	deltaRotation.Yaw = movement.X * deltaTime * TurnRate;
+	AddActorLocalRotation(deltaRotation, true);
 }
