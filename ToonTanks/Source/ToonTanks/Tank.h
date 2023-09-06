@@ -40,6 +40,9 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = "Input")
 	class UInputAction* MoveAction;
 
+	UPROPERTY(VisibleAnywhere, Category = "Input")
+	class UInputAction* FireAction;
+
 	UPROPERTY(EditAnywhere, Category = "Movement")
 	float Speed = 200.0f;
 

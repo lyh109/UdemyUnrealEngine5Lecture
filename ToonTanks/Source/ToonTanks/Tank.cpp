@@ -29,6 +29,12 @@ ATank::ATank()
 	{
 		MoveAction = IA_MOVE.Object;
 	}
+
+	static ConstructorHelpers::FObjectFinder<UInputAction>IA_FIRE(TEXT("/Game/Blueprints/Input/IA_Fire.IA_Fire"));
+	if (IA_FIRE.Succeeded())
+	{
+		FireAction = IA_FIRE.Object;
+	}
 }
 
 void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -38,6 +44,7 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent))
 	{
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ATank::Move);
+		EnhancedInputComponent->BindAction(FireAction, ETriggerEvent::Started, this, &ATank::Fire);
 	}
 }
 
