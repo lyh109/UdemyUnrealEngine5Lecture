@@ -72,7 +72,6 @@ void ATank::Move(const FInputActionValue& value)
 
 	const float deltaTime = UGameplayStatics::GetWorldDeltaSeconds(this);
 
-	UE_LOG(LogTemp, Warning, TEXT("movement: %f %f"), movement.X, movement.Y);
 	AddActorLocalOffset(forwardDirection * movement.Y * deltaTime * Speed, true);
 
 	FRotator deltaRotation = FRotator::ZeroRotator;
