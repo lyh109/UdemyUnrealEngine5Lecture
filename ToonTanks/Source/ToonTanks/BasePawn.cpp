@@ -44,7 +44,8 @@ void ABasePawn::Fire()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Fire"));
 
-	GetWorld()->SpawnActor<AProjectile>(ProjectileClass, ProjectileSpawnPoint->GetComponentLocation(), ProjectileSpawnPoint->GetComponentRotation());
+	auto projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileClass, ProjectileSpawnPoint->GetComponentLocation(), ProjectileSpawnPoint->GetComponentRotation());
+	projectile->SetOwner(this);
 }
 
 // Called every frame
