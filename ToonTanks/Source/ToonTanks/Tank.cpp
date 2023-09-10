@@ -52,11 +52,11 @@ void ATank::BeginPlay()
 {
 	Super::BeginPlay();
 
-	PlayerControllerRef = Cast<APlayerController>(GetController());
-	if (PlayerControllerRef)
+	TankPlayerController = Cast<APlayerController>(GetController());
+	if (TankPlayerController)
 	{
 		if (UEnhancedInputLocalPlayerSubsystem* subSystem =
-			ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerControllerRef->GetLocalPlayer()))
+			ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(TankPlayerController->GetLocalPlayer()))
 			subSystem->AddMappingContext(DefaultContext, 0);
 	}
 }
@@ -64,7 +64,7 @@ void ATank::BeginPlay()
 void ATank::Move(const FInputActionValue& value)
 {
 	const FVector2D movement = value.Get<FVector2D>();
-	const FRotator rotation = PlayerControllerRef->GetControlRotation();
+	const FRotator rotation = TankPlayerController->GetControlRotation();
 
 	const FRotator yawRotation = FRotator(0.0f, rotation.Yaw, 0.0f);
 	const FVector forwardDirection = FRotationMatrix(yawRotation).GetUnitAxis(EAxis::X);
@@ -83,11 +83,19 @@ void ATank::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (PlayerControllerRef)
+	if (TankPlayerController)
 	{
 		FHitResult hitResult;
-		PlayerControllerRef->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, false, hitResult);
+		TankPlayerController->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, false, hitResult);
 
 		RotateTurret(hitResult.ImpactPoint);
 	}
+}
+
+void ATank::HandleDestruction()
+{
+	Super::HandleDestruction();
+	
+	SetActorHiddenInGame(true);
+	SetActorTickEnabled(false);
 }
