@@ -30,22 +30,18 @@ protected:
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	class USpringArmComponent* SpringArm;
-
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	class UCameraComponent* Camera;
 
 	UPROPERTY(VisibleAnywhere, Category = "Input")
 	class UInputMappingContext* DefaultContext;
-
 	UPROPERTY(VisibleAnywhere, Category = "Input")
 	class UInputAction* MoveAction;
-
 	UPROPERTY(VisibleAnywhere, Category = "Input")
 	class UInputAction* FireAction;
 
 	UPROPERTY(EditAnywhere, Category = "Movement")
 	float Speed = 200.0f;
-
 	UPROPERTY(EditAnywhere, Category = "Movement")
 	float TurnRate = 45.0f;
 
@@ -54,6 +50,8 @@ private:
 	APlayerController* TankPlayerController;
 
 public:
+	bool bAlive = true;
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
