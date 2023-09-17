@@ -4,6 +4,7 @@
 #include "BasePawn.h"
 #include "Components/CapsuleComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Particles/ParticleSystem.h"
 #include "Projectile.h"
 
 // Sets default values
@@ -57,5 +58,8 @@ void ABasePawn::Tick(float DeltaTime)
 
 void ABasePawn::HandleDestruction()
 {
-	
+	if (DeathParticles)
+	{
+		UGameplayStatics::SpawnEmitterAtLocation(this, DeathParticles, GetActorLocation(), GetActorRotation(), true);
+	}
 }
