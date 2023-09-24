@@ -34,11 +34,15 @@ private:
 	class UInputMappingContext* InputMappingContext;
 	
 	UPROPERTY(VisibleAnywhere, Category = "Input")
-	UInputAction* MoveForwardAction;
+	UInputAction* MoveAction;
 
 	UPROPERTY(VisibleAnywhere, Category = "Input")
-	UInputAction* LookUpAction;
+	UInputAction* LookAction;
 
-	void MoveForward(const FInputActionValue& value);
-	void LookUp(const FInputActionValue& value);
+	UPROPERTY(VisibleAnywhere, Category = "Input")
+	UInputAction* JumpAction;
+
+	void Move(const FInputActionValue& value);
+	void Look(const FInputActionValue& value);
+	void Jump() override;
 };

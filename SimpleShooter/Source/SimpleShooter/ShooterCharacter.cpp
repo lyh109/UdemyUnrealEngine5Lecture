@@ -18,16 +18,22 @@ AShooterCharacter::AShooterCharacter()
 		InputMappingContext = INPUT_MAPPING_CONTEXT.Object;
 	}
 	
-	static ConstructorHelpers::FObjectFinder<UInputAction>IA_MOVE_FORWARD(TEXT("/Game/Input/IA_MoveForward.IA_MoveForward"));
+	static ConstructorHelpers::FObjectFinder<UInputAction>IA_MOVE_FORWARD(TEXT("/Game/Input/IA_Move.IA_Move"));
 	if (IA_MOVE_FORWARD.Succeeded())
 	{
-		MoveForwardAction = IA_MOVE_FORWARD.Object;
+		MoveAction = IA_MOVE_FORWARD.Object;
 	}
 
-	static ConstructorHelpers::FObjectFinder<UInputAction>IA_LOOK_UP(TEXT("/Game/Input/IA_LookUp.IA_LookUp"));
-	if (IA_LOOK_UP.Succeeded())
+	static ConstructorHelpers::FObjectFinder<UInputAction>IA_LOOK(TEXT("/Game/Input/IA_Look.IA_Look"));
+	if (IA_LOOK.Succeeded())
 	{
-		LookUpAction = IA_LOOK_UP.Object;
+		LookAction = IA_LOOK.Object;
+	}
+
+	static ConstructorHelpers::FObjectFinder<UInputAction>IA_JUMP(TEXT("/Game/Input/IA_Jump.IA_Jump"));
+	if (IA_JUMP.Succeeded())
+	{
+		JumpAction = IA_JUMP.Object;
 	}
 }
 
@@ -60,19 +66,27 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 
 	 if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent))
 	 {
-		 EnhancedInputComponent->BindAction(MoveForwardAction, ETriggerEvent::Triggered, this, &AShooterCharacter::MoveForward);
-		 EnhancedInputComponent->BindAction(LookUpAction, ETriggerEvent::Triggered, this, &AShooterCharacter::LookUp);
+		 EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AShooterCharacter::Move);
+		 EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AShooterCharacter::Look);
+		 EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &AShooterCharacter::Jump);
 	 }
 }
 
-void AShooterCharacter::MoveForward(const FInputActionValue& value)
+void AShooterCharacter::Move(const FInputActionValue& value)
 {
 	const FVector2D movement = value.Get<FVector2D>();
-	AddMovementInput(GetActorForwardVector() * movement.Y);
+	AddMovementInput(GetActorRightVector() * movement.X + GetActorForwardVector() * movement.Y);
 }
 
-void AShooterCharacter::LookUp(const FInputActionValue& value)
+void AShooterCharacter::Look(const FInputActionValue& value)
 {
-	const float movement = value.Get<float>();
-	AddControllerPitchInput(movement);
+	const FVector2D movement = value.Get<FVector2D>();
+
+	AddControllerYawInput(movement.X);
+	AddControllerPitchInput(movement.Y);
+}
+
+void AShooterCharacter::Jump()
+{
+	Super::Jump();
 }
