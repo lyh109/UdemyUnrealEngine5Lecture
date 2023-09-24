@@ -30,6 +30,12 @@ AShooterCharacter::AShooterCharacter()
 		LookAction = IA_LOOK.Object;
 	}
 
+	static ConstructorHelpers::FObjectFinder<UInputAction>IA_LOOK_RATE(TEXT("/Game/Input/IA_LookRate.IA_LookRate"));
+	if (IA_LOOK_RATE.Succeeded())
+	{
+		LookRateAction = IA_LOOK_RATE.Object;
+	}
+
 	static ConstructorHelpers::FObjectFinder<UInputAction>IA_JUMP(TEXT("/Game/Input/IA_Jump.IA_Jump"));
 	if (IA_JUMP.Succeeded())
 	{
@@ -68,6 +74,7 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	 {
 		 EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AShooterCharacter::Move);
 		 EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AShooterCharacter::Look);
+		 EnhancedInputComponent->BindAction(LookRateAction, ETriggerEvent::Triggered, this, &AShooterCharacter::LookRate);
 		 EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &AShooterCharacter::Jump);
 	 }
 }
@@ -84,6 +91,14 @@ void AShooterCharacter::Look(const FInputActionValue& value)
 
 	AddControllerYawInput(movement.X);
 	AddControllerPitchInput(movement.Y);
+}
+
+void AShooterCharacter::LookRate(const FInputActionValue& value)
+{
+	const FVector2D movement = value.Get<FVector2D>();
+
+	AddControllerYawInput(movement.X * RotationRate * GetWorld()->GetDeltaSeconds());
+	AddControllerPitchInput(movement.Y * RotationRate * GetWorld()->GetDeltaSeconds());
 }
 
 void AShooterCharacter::Jump()

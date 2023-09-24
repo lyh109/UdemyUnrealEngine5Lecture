@@ -30,6 +30,9 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 private:
+	UPROPERTY(EditAnywhere)
+	float RotationRate = 10.0f;
+
 	UPROPERTY(VisibleAnywhere, Category = "Input")
 	class UInputMappingContext* InputMappingContext;
 	
@@ -40,9 +43,13 @@ private:
 	UInputAction* LookAction;
 
 	UPROPERTY(VisibleAnywhere, Category = "Input")
+	UInputAction* LookRateAction;
+
+	UPROPERTY(VisibleAnywhere, Category = "Input")
 	UInputAction* JumpAction;
 
 	void Move(const FInputActionValue& value);
 	void Look(const FInputActionValue& value);
+	void LookRate(const FInputActionValue& value);
 	void Jump() override;
 };
