@@ -8,6 +8,7 @@
 #include "ShooterCharacter.generated.h"
 
 class UInputAction;
+class AGun;
 
 UCLASS()
 class SIMPLESHOOTER_API AShooterCharacter : public ACharacter
@@ -47,6 +48,12 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = "Input")
 	UInputAction* JumpAction;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<AGun> GunClass;
+	
+	UPROPERTY()
+	AGun* Gun;
 
 	void Move(const FInputActionValue& value);
 	void Look(const FInputActionValue& value);
