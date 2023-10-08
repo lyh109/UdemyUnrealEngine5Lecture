@@ -42,6 +42,12 @@ AShooterCharacter::AShooterCharacter()
 	{
 		JumpAction = IA_JUMP.Object;
 	}
+
+	static ConstructorHelpers::FObjectFinder<UInputAction>IA_SHOOT(TEXT("/Game/Input/IA_Shoot.IA_Shoot"));
+	if (IA_SHOOT.Succeeded())
+	{
+		ShootAction = IA_SHOOT.Object;
+	}
 }
 
 // Called when the game starts or when spawned
@@ -82,6 +88,7 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 		 EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AShooterCharacter::Look);
 		 EnhancedInputComponent->BindAction(LookRateAction, ETriggerEvent::Triggered, this, &AShooterCharacter::LookRate);
 		 EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &AShooterCharacter::Jump);
+		 EnhancedInputComponent->BindAction(ShootAction, ETriggerEvent::Triggered, this, &AShooterCharacter::Shoot);
 	 }
 }
 
@@ -110,4 +117,9 @@ void AShooterCharacter::LookRate(const FInputActionValue& value)
 void AShooterCharacter::Jump()
 {
 	Super::Jump();
+}
+
+void AShooterCharacter::Shoot(const FInputActionValue& value)
+{
+	Gun->PullTrigger();
 }

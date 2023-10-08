@@ -48,6 +48,9 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = "Input")
 	UInputAction* JumpAction;
+	
+	UPROPERTY(VisibleAnywhere, Category = "Input")
+	UInputAction* ShootAction;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AGun> GunClass;
@@ -59,4 +62,5 @@ private:
 	void Look(const FInputActionValue& value);
 	void LookRate(const FInputActionValue& value);
 	void Jump() override;
+	void Shoot(const FInputActionValue& value);
 };
