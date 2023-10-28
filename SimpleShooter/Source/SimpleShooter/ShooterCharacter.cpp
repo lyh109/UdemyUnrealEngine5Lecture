@@ -106,6 +106,11 @@ float AShooterCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Dama
 	return damageToApply;
 }
 
+bool AShooterCharacter::IsDead() const
+{
+	return Health <= 0.0f;
+}
+
 void AShooterCharacter::Move(const FInputActionValue& value)
 {
 	const FVector2D movement = value.Get<FVector2D>();
