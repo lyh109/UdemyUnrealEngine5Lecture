@@ -4,6 +4,12 @@
 #include "ShooterAIController.h"
 #include "Kismet/GameplayStatics.h"
 
+void AShooterAIController::Tick(float DeltaSeconds)
+{
+	APawn* playerPawn = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+	MoveToActor(playerPawn, 200);
+}
+
 void AShooterAIController::BeginPlay()
 {
 	Super::BeginPlay();
