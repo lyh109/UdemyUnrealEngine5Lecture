@@ -106,6 +106,11 @@ float AShooterCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Dama
 	return damageToApply;
 }
 
+void AShooterCharacter::AIShoot()
+{
+	Gun->PullTrigger();
+}
+
 bool AShooterCharacter::IsDead() const
 {
 	return Health <= 0.0f;
