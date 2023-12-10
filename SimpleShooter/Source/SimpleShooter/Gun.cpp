@@ -37,6 +37,7 @@ void AGun::Tick(float DeltaTime)
 void AGun::PullTrigger()
 {
 	UGameplayStatics::SpawnEmitterAttached(MuzzleFlash, Mesh, TEXT("MuzzleFlashSocket"));
+	UGameplayStatics::SpawnSoundAttached(MuzzleSound, Mesh, TEXT("MuzzleFlashSocket"));
 
 	FHitResult hit;
 	FVector shotDirection;
@@ -44,8 +45,8 @@ void AGun::PullTrigger()
 	
 	if (bSuccess)
 	{
-		
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ImpactEffect, hit.Location, shotDirection.Rotation());
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), ImpactSound, hit.Location);
 
 		AActor* hitActor = hit.GetActor();
 		if (hitActor)
