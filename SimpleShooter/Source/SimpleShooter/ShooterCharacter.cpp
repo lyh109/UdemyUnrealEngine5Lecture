@@ -130,6 +130,11 @@ bool AShooterCharacter::IsDead() const
 	return Health <= 0.0f;
 }
 
+float AShooterCharacter::GetHealthPercent() const
+{
+	return Health / MaxHealth;
+}
+
 void AShooterCharacter::Move(const FInputActionValue& value)
 {
 	const FVector2D movement = value.Get<FVector2D>();
