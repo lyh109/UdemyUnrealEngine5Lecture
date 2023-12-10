@@ -4,6 +4,7 @@
 #include "KillEmAllGameMode.h"
 #include "EngineUtils.h"
 #include "GameFramework/Controller.h"
+#include "ShooterAIController.h"
 
 void AKillEmAllGameMode::PawnKilled(APawn* PawnKilled)
 {
@@ -13,7 +14,18 @@ void AKillEmAllGameMode::PawnKilled(APawn* PawnKilled)
 	if (playerController != nullptr)
 	{
 		EndGame(false);
+		return;
 	}
+
+	for (AShooterAIController* controller : TActorRange<AShooterAIController>(GetWorld()))
+	{
+		if (!controller->IsDead())
+		{
+			return;
+		}
+	}
+
+	EndGame(true);
 }
 
 void AKillEmAllGameMode::EndGame(bool bIsPlayerWinner)
